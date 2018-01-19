@@ -1,12 +1,7 @@
 #include <iostream>
+#include "analog.h"
 
 using namespace std;
-
-/*typedef Catalogue*/
-
-void printUsages();
-void genererCatalogue();
-void genererGraphe();
 
 int main(int argc, char const *argv[])
 {
