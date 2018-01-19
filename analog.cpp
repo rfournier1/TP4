@@ -1,4 +1,5 @@
 #include <iostream>
+#include "analog.h"
 
 using namespace std;
 

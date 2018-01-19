@@ -1,88 +1,36 @@
 /*************************************************************************
-                           ${file_base}  -  description
+                           analog  -  description
                              -------------------
     d�but                : ${date}
     copyright            : (C) ${year} par ${user}
 *************************************************************************/
 
-//---------- Interface de la classe <${file_base}> (fichier ${file_name}) ------
-#if ! defined ( XXX_H )
-#define XXX_H
+//---------- Interface de la classe analog (fichier ${analog.h}) ------
+#if ! defined ( ANALOG_H )
+#define Analog_H
 
 //--------------------------------------------------- Interfaces utilis�es
+#include <unordered_map>
+#include <string>
 
+//using namespace std;
 //------------------------------------------------------------- Constantes 
 
 //------------------------------------------------------------------ Types 
+typedef std::unordered_map<std::string, int> ReferersMap;
+typedef std::unordered_map<std::string, ReferersMap> Catalogue;
 
-//------------------------------------------------------------------------ 
-// R�le de la classe <${file_base}>
-//
-//
-//------------------------------------------------------------------------ 
+//---------------------------------------------------------------Fonctions
 
-class ${file_base} : public Ancetre
-{
-//----------------------------------------------------------------- PUBLIC
+	void printUsages();
 
-public:
-//----------------------------------------------------- M�thodes publiques
-    // type M�thode ( liste de param�tres );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+	void genererCatalogue();
+
+	void genererGraphe();
+
+//---------------------------------------------------------------Attributs
+
+	Catalogue ressources;
 
 
-//------------------------------------------------- Surcharge d'op�rateurs
-    ${file_base} & operator = ( const ${file_base} & un${file_base} );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-
-//-------------------------------------------- Constructeurs - destructeur
-    ${file_base} ( const ${file_base} & un${file_base} );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
-
-    ${file_base} ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-    virtual ~${file_base} ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-//------------------------------------------------------------------ PRIVE 
-
-protected:
-//----------------------------------------------------- M�thodes prot�g�es
-
-private:
-//------------------------------------------------------- M�thodes priv�es
-
-protected:
-//----------------------------------------------------- Attributs prot�g�s
-
-private:
-//------------------------------------------------------- Attributs priv�s
-
-//---------------------------------------------------------- Classes amies
-
-//-------------------------------------------------------- Classes priv�es
-
-//----------------------------------------------------------- Types priv�s
-
-};
-
-//----------------------------------------- Types d�pendants de <${file_base}>
-
-#endif // XXX_H
+#endif // ANALOG_H
