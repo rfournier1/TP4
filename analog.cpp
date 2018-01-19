@@ -4,10 +4,6 @@ using namespace std;
 
 /*typedef Catalogue*/
 
-void printUsages();
-void genererCatalogue();
-void genererGraphe();
-
 int main(int argc, char const *argv[])
 {
 	/*gérer les erreurs propres au main*/
@@ -19,3 +15,16 @@ int main(int argc, char const *argv[])
 	
 	return 0;
 }
+
+void genererGraph(String dotFileName){
+
+	ofstream dotStream;
+	dotStream.open(dotFileName, ios::out);
+	if(dotStream.is_open()){
+		cout<<dotFileName<<" existe déjà, voulez vous le remplaçer ? (o/n)"<<endl;
+		String answer;
+		cin>>answer;
+
+		}
+	
+}	
