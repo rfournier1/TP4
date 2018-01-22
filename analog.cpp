@@ -1,4 +1,5 @@
 #include <iostream>
+
 #include "analog.h"
 
 using namespace std;
@@ -13,31 +14,30 @@ int main(int argc, char const *argv[])
 
 	/*en fonction des arguments générerGraphe ou pas
 	puis affichage de la réponse*/
-	
 	ReferersMap resA={{"B",2},{"C",1}};
-	ReferersMap resC={{"A",3},{"B",1}};
 	ReferersMap resB={{"A",12},{"C",3},{"B",4}};
-	ressources={{"A",resA},{"C",resC},{"B",resB}};
-
-	genererGraphe("banane.dot");
-
+	Catalogue ressources={{"A",resA},{"B",resB}};
+	ajouterRessource("A", "B", ressources);
+	ajouterRessource("B", "B", ressources);
+	genererGraphe("banane.dot", ressources);
+	cout<<ressources["A"]["B"];
 	return 0;
 }
 
-void genererGraphe(string dotFileName){
+void genererGraphe(string dotFileName, Catalogue &ressources){
 	ifstream testPresence (dotFileName);
 	if(testPresence){
 		string answer="";
 		while(answer!="o" && answer!="n"){
 		cout<<dotFileName<<" existe déjà, voulez vous le remplaçer ? (o/n)"<<endl;
 		cin>>answer;
-		cout<<answer<<endl;
 		}
 		if(answer=="n"){
 			cout<<"Le fichier file n'a pas été généré, fichier précédent conservé"<<endl;
 			exit;
 		}
 	}
+	testPresence.close();
 	ofstream dotStream;
 	dotStream.open(dotFileName, ios::out);
 	//initializing dotstream
@@ -52,3 +52,19 @@ void genererGraphe(string dotFileName){
 	dotStream<<"}"<<endl;
 	dotStream.close();
 }	
+
+void ajouterRessource(string resName, string refName, Catalogue &ressources){
+	//check si la ressource est déja dans la table
+	Catalogue::iterator res= ressources.find(resName);
+	if(res!=ressources.end()){
+		ReferersMap::iterator ref= res->second.find(refName);
+		if(ref!= res->second.end()){
+			ref->second = (ref->second) + 1;
+		}else{
+			res->second.insert({refName,1});
+		}
+	}else{
+		//ReferersMap test = {{refName, 1}};
+		ressources.insert({resName, {{refName, 1}}});
+	}
+}

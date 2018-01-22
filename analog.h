@@ -19,7 +19,7 @@
 
 //------------------------------------------------------------------ Types 
 typedef std::unordered_map<std::string, int> ReferersMap;
-typedef std::unordered_map<std::string, ReferersMap> Catalogue;
+typedef std::unordered_map<std::string,  ReferersMap> Catalogue;
 
 //---------------------------------------------------------------Fonctions
 
@@ -27,11 +27,9 @@ typedef std::unordered_map<std::string, ReferersMap> Catalogue;
 
 	void genererCatalogue();
 
-	void genererGraphe(std::string dotFileName);
+	void genererGraphe(std::string dotFileName, Catalogue &ressources);
 
+  void ajouterRessource(std::string res, std::string ref, Catalogue &ressources);
 //---------------------------------------------------------------Attributs
-
-	Catalogue ressources;
-
 
 #endif // ANALOG_H
