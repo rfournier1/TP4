@@ -63,13 +63,14 @@ void genererCatalogue(bool option [], int heure)
 				//si le log est concerné par l'intervalle de recherche
 				if(hour == heure || hour == heure+1)
 				{
-					pos = line.find("GET")+1;
+					pos = line.find("GET") + 1;
 
 					//si le log concerne une méthode GET 200 OK
 					if(pos != string::npos && line.substr(line.find("\"", line.find("/", pos)) + 2, 3) == "200")
 					{
 						string ressource = line.substr(line.find("/", pos), line.find(" ", line.find("/", pos)) - line.find("/", pos));//extraction de la ressource
-
+						pos = line.find("\"", pos) + 1;
+						string referer = line.substr(line.find("\"", pos) + 1, line.find("\"", line.find("\"", pos) + 1) - line.find("\"", pos) - 1);//extraction du referer
 						//option -e : filtrage des images
 						if(option[0] == true)
 						{
@@ -80,12 +81,14 @@ void genererCatalogue(bool option [], int heure)
 								//insertion dans la map------------------------------------------------------------------------------------
 								cout << line << endl;
 								cout << ressource << endl;
+								cout << referer << endl;
 							}
 						}else
 						{
 							//insertion dans la map------------------------------------------------------------------------------------
 							cout << line << endl;
 							cout << ressource << endl;
+							cout << referer << endl;
 						}
 					}
 				}
@@ -96,12 +99,14 @@ void genererCatalogue(bool option [], int heure)
 			//parcour du fichier
 			while(getline(logStream, line))
 			{
-				pos = line.find("GET")+1;
+				pos = line.find("GET") + 1;
 
 				//si le log concerne une méthode GET 200 OK
 				if(pos != string::npos && line.substr(line.find("\"", line.find("/", pos)) + 2, 3) == "200")
 				{
 					string ressource = line.substr(line.find("/", pos), line.find(" ", line.find("/", pos)) - line.find("/", pos));//extraction de la ressource
+					pos = line.find("\"", pos) + 1;
+					string referer = line.substr(line.find("\"", pos) + 1, line.find("\"", line.find("\"", pos) + 1) - line.find("\"", pos) - 1);//extraction du referer
 
 					//option -e : filtrage des images
 					if(option[0] == true)
@@ -112,11 +117,13 @@ void genererCatalogue(bool option [], int heure)
 						{
 							//insertion dans la map------------------------------------------------------------------------------------
 							cout << ressource << endl;
+							cout << referer << endl;
 						}
 					}else
 					{
 						//insertion dans la map------------------------------------------------------------------------------------
 						cout << ressource << endl;
+						cout << referer << endl;
 					}
 				}
 				
