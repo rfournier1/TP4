@@ -27,9 +27,9 @@ typedef std::unordered_map<std::string,  ReferersMap> Catalogue;
 
 	void genererCatalogue(bool option [], int heure = -1);
 
-	void genererGraphe(std::string dotFileName, Catalogue &ressources);
+	void genererGraphe(std::string dotFileName);
 
-  void ajouterRessource(std::string res, std::string ref, Catalogue &ressources);
+  void ajouterRessource(std::string res, std::string ref);
 //---------------------------------------------------------------Attributs
 
 #endif // ANALOG_H

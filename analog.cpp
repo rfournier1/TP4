@@ -4,6 +4,7 @@
 using namespace std;
 
 string logName="anonyme.log";
+Catalogue ressources;
 
 int main(int argc, char const *argv[])
 {
@@ -20,9 +21,9 @@ int main(int argc, char const *argv[])
 	ReferersMap resB={{"A",12},{"C",3},{"B",4}};
 	Catalogue ressources={{"A",resA},{"B",resB}};
 	ajouterRessource("A", "B", ressources);
-	ajouterRessource("B", "B", ressources);
-	genererGraphe("banane.dot", ressources);
-	cout<<ressources["A"]["B"];*/
+	ajouterRessource("B", "B", ressources);*/
+	genererGraphe("banane.dot");
+	cout<<ressources["A"]["B"];
 	return 0;
 }
 
@@ -75,18 +76,21 @@ void genererCatalogue(bool option [], int heure)
 							if(ressource.find(".png") == string::npos && ressource.find(".jpg") == string::npos && ressource.find(".bmp") == string::npos 
 								&& ressource.find(".png") == string::npos && ressource.find(".gif") == string::npos && ressource.find(".css") == string::npos
 								&& ressource.find(".js") == string::npos && ressource.find(".ico") == string::npos)
+								
 							{
 								//insertion dans la map------------------------------------------------------------------------------------
-								cout << line << endl;
+								/*cout << line << endl;
 								cout << ressource << endl;
-								cout << referer << endl;
+								cout << referer << endl;*/
+								ajouterRessource(ressource,referer);
 							}
 						}else
 						{
 							//insertion dans la map------------------------------------------------------------------------------------
-							cout << line << endl;
+							/*cout << line << endl;
 							cout << ressource << endl;
-							cout << referer << endl;
+							cout << referer << endl;*/
+							ajouterRessource(ressource,referer);
 						}
 					}
 				}
@@ -114,14 +118,16 @@ void genererCatalogue(bool option [], int heure)
 							&& ressource.find(".js") == string::npos && ressource.find(".ico") == string::npos)
 						{
 							//insertion dans la map------------------------------------------------------------------------------------
-							cout << ressource << endl;
-							cout << referer << endl;
+							/*cout << ressource << endl;
+							cout << referer << endl;*/
+							ajouterRessource(ressource,referer);
 						}
 					}else
 					{
 						//insertion dans la map------------------------------------------------------------------------------------
-						cout << ressource << endl;
-						cout << referer << endl;
+						/*cout << ressource << endl;
+						cout << referer << endl;*/
+						ajouterRessource(ressource,referer);
 					}
 				}
 				
@@ -133,7 +139,7 @@ void genererCatalogue(bool option [], int heure)
 	}
 }
 
-void genererGraphe(string dotFileName, Catalogue &ressources){
+void genererGraphe(string dotFileName){
 	ifstream testPresence (dotFileName);
 	if(testPresence){
 		string answer="";
@@ -160,10 +166,17 @@ void genererGraphe(string dotFileName, Catalogue &ressources){
 	}
 	dotStream<<"}"<<endl;
 	dotStream.close();
+	cout<<"creation finished"<<endl;
 }	
 
-void ajouterRessource(string resName, string refName, Catalogue &ressources){
+void ajouterRessource(string resName, string refName){
 	//check si la ressource est déja dans la table
+	if(refName == "-"){
+		refName="x";
+	}
+	resName = "\""+resName+"\"";
+	refName = "\""+refName+"\"";
+
 	Catalogue::iterator res= ressources.find(resName);
 	if(res!=ressources.end()){
 		ReferersMap::iterator ref= res->second.find(refName);
