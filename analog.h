@@ -25,7 +25,7 @@ typedef std::unordered_map<std::string,  ReferersMap> Catalogue;
 
 	void printUsages();
 
-	void genererCatalogue();
+	void genererCatalogue(bool option [], int heure = -1);
 
 	void genererGraphe(std::string dotFileName, Catalogue &ressources);
 
