@@ -12,6 +12,7 @@
 //--------------------------------------------------- Interfaces utilis�es
 #include <unordered_map>
 #include <string>
+#include <fstream>
 
 //using namespace std;
 //------------------------------------------------------------- Constantes 
@@ -26,7 +27,7 @@ typedef std::unordered_map<std::string, ReferersMap> Catalogue;
 
 	void genererCatalogue(bool option [], int heure = -1);
 
-	void genererGraphe();
+	void genererGraphe(std::string dotFileName);
 
 //---------------------------------------------------------------Attributs
 
