@@ -29,7 +29,7 @@ typedef std::unordered_map<std::string,  ReferersMap> Catalogue;
 
 	void genererGraphe(std::string dotFileName);
 
-  void ajouterRessource(std::string res, std::string ref);
+  	void ajouterRessource(std::string res, std::string ref);
 //---------------------------------------------------------------Attributs
 
 #endif // ANALOG_H

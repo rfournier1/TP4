@@ -1,30 +1,124 @@
 #include <iostream>
+#include <map>
 #include "analog.h"
 
 using namespace std;
 
-string logName="anonyme.log";
+string logFileName;
 Catalogue ressources;
 
 int main(int argc, char const *argv[])
 {
-	/*gérer les erreurs propres au main*/
+	//gestion de l'appel au programme et du passage des arguments en ligne de commande
+	bool option [3];
+	option [0] = false;
+	option [1] = false;
+	option [2] = false;
+	int heure = -1;
+	string dotOutputFile;
+	
+	if(argc > 1 && argc < 7)
+	{
+		for (int i = 0; i < argc; ++i)
+		{
+			//option : -e
+			if(argv[i] == "-e")
+			{
+				option [0] = true;
+			//option : -t heure
+			}else if(argv[i] == "-t")
+			{
+				if(i+1 != argc)
+				{
+					try
+					{
+						heure = stoi(argv[i+1]);
+						if(heure > 24)
+						{
+							cerr << "-main- Heure incorrecte !" << endl;
+							printUsages();
+						}
+					}catch (const std::invalid_argument& ia) {
+	  					cerr << "-main- Invalid argument: " << ia.what() << '\n';
+	  					printUsages();
+  					}
+				}else
+				{
+					cerr << "-main- Heure manquante" << endl;
+					printUsages();
+				}
+				option [1] = true;
+				i++;
+			//option : -g
+			}else if(argv[i] == "-g")
+			{
+				if(i+1 != argc)
+				{
+					dotOutputFile = argv[i+1];
+				}else
+				{
+					cerr << "-main- Nom du fichier .dot non renseigné" << endl;
+					printUsages();
+				}
+				option[2] = true;
+				i++;
+			//nom du fichier cible 
+			}else
+			{
+				logFileName = argv[i];
+			}
+		}
+	}else
+	{
+		cerr << "-main- Pas/trop d'arguments" << endl;
+		printUsages();
+	}
 
-	/*générer catalogue*/
-	bool option [2];
-	option [0] = true;
-	option [1] = true;
-	genererCatalogue(option);
-	/*en fonction des arguments générerGraphe ou pas
-	puis affichage de la réponse*/
+	genererCatalogue(option, heure);
+
 	/*ReferersMap resA={{"B",2},{"C",1}};
 	ReferersMap resB={{"A",12},{"C",3},{"B",4}};
 	Catalogue ressources={{"A",resA},{"B",resB}};
 	ajouterRessource("A", "B", ressources);
 	ajouterRessource("B", "B", ressources);*/
-	genererGraphe("banane.dot");
-	cout<<ressources["A"]["B"];
+	//option : -g
+	if(option[2])
+	{
+		genererGraphe(dotOutputFile);
+		cout<<ressources["A"]["B"];
+	}
+	
+	//tri des ressources par ordre de consultation
+	int popularite;
+	//map triée par défault par int croissant
+	std::map<int, string> top10;
+	//parcours du catalogue
+	for (Catalogue::iterator resIt = ressources.begin(); resIt != ressources.end(); ++resIt)
+	{
+		popularite = 0;
+		//parcours des referers associés à la ressource
+		for (ReferersMap::iterator refIt = resIt->second.begin(); refIt != resIt->second.end(); ++refIt)
+		{
+			//somme des nombres de consultations depuis chaque referer
+			popularite += refIt->second;
+		}
+		top10.insert(pair<int, string>(popularite, resIt->first));
+	}
+
+	//affichage des 10 ressources les plus consultées ! :)
+	int compteur = 0;
+	for (map<int, string>::iterator top = --top10.end(); compteur < 10; --top, ++compteur)
+	{
+		cout << top->first << "---------" << top->second << endl;
+	}
+
 	return 0;
+}
+
+void printUsages()
+{
+	cout << "usages" << endl;
+	exit(0);
 }
 
 /*filtrer d'autre status 
@@ -33,7 +127,7 @@ nettoyer ressources et url ? (slash en fin de chaîne)
 void genererCatalogue(bool option [], int heure)
 {
 	//ouverture d'un flux en lecture sur le fichier
-	ifstream logStream(logName, ios::in);
+	ifstream logStream(logFileName, ios::in);
 
 	if(logStream)
 	{
@@ -60,7 +154,7 @@ void genererCatalogue(bool option [], int heure)
 				hour = stoi(line.substr(pos, line.find(":", pos)-pos));//extraction de l'heure du log
 
 				//si le log est concerné par l'intervalle de recherche
-				if(hour == heure || hour == heure+1)
+				if(hour == heure || hour == ((heure+1) % 24))
 				{
 					pos = line.find("GET") + 1;
 
@@ -136,6 +230,7 @@ void genererCatalogue(bool option [], int heure)
 	}else
 	{
 		cerr << "-genererCatalogue- Impossible d'ouvrir le fichier !" << endl;
+		printUsages();
 	}
 }
 
