@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include <string.h>
 #include "analog.h"
 
 using namespace std;
@@ -17,16 +18,19 @@ int main(int argc, char const *argv[])
 	int heure = -1;
 	string dotOutputFile;
 	
-	if(argc > 1 && argc < 7)
+	if(argc > 1 && argc < 8)
 	{
-		for (int i = 0; i < argc; ++i)
+		cout << "argc" << argc << endl;
+
+		for (int i = 1; i < argc; ++i)
 		{
+			cout << "argv" << i << " : " << argv[i] << endl;
 			//option : -e
-			if(argv[i] == "-e")
+			if(strcmp(argv[i], "-e") == 0)
 			{
 				option [0] = true;
 			//option : -t heure
-			}else if(argv[i] == "-t")
+			}else if(strcmp(argv[i], "-t") == 0)
 			{
 				if(i+1 != argc)
 				{
@@ -50,7 +54,7 @@ int main(int argc, char const *argv[])
 				option [1] = true;
 				i++;
 			//option : -g
-			}else if(argv[i] == "-g")
+			}else if(strcmp(argv[i], "-g") == 0)
 			{
 				if(i+1 != argc)
 				{
@@ -66,11 +70,14 @@ int main(int argc, char const *argv[])
 			}else
 			{
 				logFileName = argv[i];
+				cout << "fileName : " << logFileName << endl;
 			}
 		}
 	}else
 	{
-		cerr << "-main- Pas/trop d'arguments" << endl;
+		cerr << "\033[1;91m";
+		cerr << "-main- Trop ou pas d'arguments" << endl;
+		cout << "\033[0m";
 		printUsages();
 	}
 
@@ -117,7 +124,17 @@ int main(int argc, char const *argv[])
 
 void printUsages()
 {
-	cout << "usages" << endl;
+	cout << "\033[1;33m";
+	string answer;
+	while(answer!="o" && answer!="n"){
+		cout<< endl;
+		cout << "Souhaitez-vous consulter le manuel d'utilisation ? (o/n)"<<endl;
+		cin>>answer;
+	}
+	if(answer=="o"){
+		cout << "usages" << endl;
+	}
+	cout << "\033[0m";
 	exit(0);
 }
 
