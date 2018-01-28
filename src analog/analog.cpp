@@ -75,9 +75,9 @@ int main(int argc, char const *argv[])
 		}
 	}else
 	{
-		cerr << "\033[1;91m";
+		//cerr << "\033[1;91m";
 		cerr << "-main- Trop ou pas d'arguments" << endl;
-		cout << "\033[0m";
+		//cerr << "\033[0m";
 		printUsages();
 	}
 
@@ -124,18 +124,18 @@ int main(int argc, char const *argv[])
 
 void printUsages()
 {
-	cout << "\033[1;33m";
+	//cout << "\033[1;33m";
 	string answer;
 	while(answer!="o" && answer!="n"){
-		cout<< endl;
+		cout << endl;
 		cout << "Souhaitez-vous consulter le manuel d'utilisation ? (o/n)"<<endl;
-		cin>>answer;
+		cin >> answer;
 	}
-	if(answer=="o"){
+	if(answer == "o"){
 		cout << "usages" << endl;
 	}
-	cout << "\033[0m";
-	exit(0);
+	//cout << "\033[0m";
+	exit(1);
 }
 
 /*filtrer d'autre status 
@@ -152,7 +152,7 @@ void genererCatalogue(bool option [], int heure)
 		if(logStream.peek() == std::ifstream::traits_type::eof())
 		{
 			cerr << "-genererCatalogue- Fichier vide !" << endl;
-			exit(0);
+			exit(2);
 		}
 
 		//initialiser la map--------------------------------------------------------------------------
@@ -261,7 +261,7 @@ void genererGraphe(string dotFileName){
 		}
 		if(answer=="n"){
 			cout<<"Le fichier file n'a pas été généré, fichier précédent conservé"<<endl;
-			exit;
+			exit(3);
 		}
 	}
 	testPresence.close();
