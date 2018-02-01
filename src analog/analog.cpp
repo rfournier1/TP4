@@ -20,11 +20,11 @@ int main(int argc, char const *argv[])
 	
 	if(argc > 1 && argc < 8)
 	{
-		cout << "argc" << argc << endl;
+		//cout << "argc" << argc << endl;
 
 		for (int i = 1; i < argc; ++i)
 		{
-			cout << "argv" << i << " : " << argv[i] << endl;
+			//cout << "argv" << i << " : " << argv[i] << endl;
 			//option : -e
 			if(strcmp(argv[i], "-e") == 0)
 			{
@@ -70,7 +70,7 @@ int main(int argc, char const *argv[])
 			}else
 			{
 				logFileName = argv[i];
-				cout << "fileName : " << logFileName << endl;
+				//cout << "fileName : " << logFileName << endl;
 			}
 		}
 	}else
@@ -114,11 +114,10 @@ int main(int argc, char const *argv[])
 
 	//affichage des 10 ressources les plus consultées ! :)
 	int compteur = 0;
-	for (map<int, string>::iterator top = --top10.end(); compteur < 10; --top, ++compteur)
+	for (map<int, string>::iterator top = --top10.end(); top != --top10.begin() && compteur < 10; --top, ++compteur)
 	{
-		cout << top->first << "---------" << top->second << endl;
+		cout << top->first << "(hits)" << "---------" << top->second << endl;
 	}
-
 	return 0;
 }
 
@@ -212,10 +211,10 @@ void genererCatalogue(bool option [], int heure)
 			//parcour du fichier
 			while(getline(logStream, line))
 			{
-				pos = line.find("GET") + 1;
+				pos = line.find("GET");
 
 				//si le log concerne une méthode GET 200 OK
-				if(pos != string::npos && line.substr(line.find("\"", line.find("/", pos)) + 2, 3) == "200")
+				if(pos++ != string::npos && line.substr(line.find("\"", line.find("/", pos)) + 2, 3) == "200")
 				{
 					string ressource = line.substr(line.find("/", pos), line.find(" ", line.find("/", pos)) - line.find("/", pos));//extraction de la ressource
 					pos = line.find("\"", pos) + 1;
