@@ -37,7 +37,7 @@ int main(int argc, char const *argv[])
 					try
 					{
 						heure = stoi(argv[i+1]);
-						if(heure > 24)
+						if(heure >= 24)
 						{
 							cerr << "-main- Heure incorrecte !" << endl;
 							printUsages();
@@ -81,6 +81,12 @@ int main(int argc, char const *argv[])
 		printUsages();
 	}
 
+	if(logFileName == "")
+	{
+		cerr << "-main- Nom de fichier manquant" << endl;
+		printUsages();
+	}
+
 	genererCatalogue(option, heure);
 
 	/*ReferersMap resA={{"B",2},{"C",1}};
@@ -92,13 +98,13 @@ int main(int argc, char const *argv[])
 	if(option[2])
 	{
 		genererGraphe(dotOutputFile);
-		cout<<ressources["A"]["B"];
+		//cout<<ressources["A"]["B"];
 	}
 	
 	//tri des ressources par ordre de consultation
 	int popularite;
 	//map triée par défault par int croissant
-	std::map<int, string> top10;
+	std::multimap<int, string> top10;
 	//parcours du catalogue
 	for (Catalogue::iterator resIt = ressources.begin(); resIt != ressources.end(); ++resIt)
 	{
@@ -114,7 +120,7 @@ int main(int argc, char const *argv[])
 
 	//affichage des 10 ressources les plus consultées ! :)
 	int compteur = 0;
-	for (map<int, string>::iterator top = --top10.end(); top != --top10.begin() && compteur < 10; --top, ++compteur)
+	for (multimap<int, string>::reverse_iterator top = top10.rbegin(); top != top10.rend() && compteur < 10; ++top, ++compteur)
 	{
 		cout << top->first << "(hits)" << "---------" << top->second << endl;
 	}
@@ -166,16 +172,20 @@ void genererCatalogue(bool option [], int heure)
 			//parcour du fichier
 			while(getline(logStream, line))
 			{
-				pos = line.find(":", line.find("[")) + 1;
-				hour = stoi(line.substr(pos, line.find(":", pos)-pos));//extraction de l'heure du log
+				hour = -1;
+
+				pos = line.find(":", line.find("["));
+
+				if(pos++ != string::npos)
+					hour = stoi(line.substr(pos, line.find(":", pos)-pos));//extraction de l'heure du log
 
 				//si le log est concerné par l'intervalle de recherche
 				if(hour == heure || hour == ((heure+1) % 24))
 				{
-					pos = line.find("GET") + 1;
+					pos = line.find("GET");
 
-					//si le log concerne une méthode GET 200 OK
-					if(pos != string::npos && line.substr(line.find("\"", line.find("/", pos)) + 2, 3) == "200")
+					//si la ligne n'est pas vide et le log concerne une méthode GET 200 OK
+					if(pos++ != string::npos && line.substr(line.find("\"", line.find("/", pos)) + 2, 3) == "200")
 					{
 						string ressource = line.substr(line.find("/", pos), line.find(" ", line.find("/", pos)) - line.find("/", pos));//extraction de la ressource
 						pos = line.find("\"", pos) + 1;
@@ -213,7 +223,7 @@ void genererCatalogue(bool option [], int heure)
 			{
 				pos = line.find("GET");
 
-				//si le log concerne une méthode GET 200 OK
+				//si la ligne n'est pas vide et le log concerne une méthode GET 200 OK
 				if(pos++ != string::npos && line.substr(line.find("\"", line.find("/", pos)) + 2, 3) == "200")
 				{
 					string ressource = line.substr(line.find("/", pos), line.find(" ", line.find("/", pos)) - line.find("/", pos));//extraction de la ressource
@@ -228,15 +238,15 @@ void genererCatalogue(bool option [], int heure)
 							&& ressource.find(".js") == string::npos && ressource.find(".ico") == string::npos)
 						{
 							//insertion dans la map------------------------------------------------------------------------------------
-							/*cout << ressource << endl;
-							cout << referer << endl;*/
+							//cout << ressource << endl;
+							//cout << referer << endl;
 							ajouterRessource(ressource,referer);
 						}
 					}else
 					{
 						//insertion dans la map------------------------------------------------------------------------------------
-						/*cout << ressource << endl;
-						cout << referer << endl;*/
+						//cout << ressource << endl;
+						//cout << referer << endl;
 						ajouterRessource(ressource,referer);
 					}
 				}
@@ -245,6 +255,7 @@ void genererCatalogue(bool option [], int heure)
 		}
 	}else
 	{
+
 		cerr << "-genererCatalogue- Impossible d'ouvrir le fichier !" << endl;
 		printUsages();
 	}
@@ -267,7 +278,7 @@ void genererGraphe(string dotFileName){
 	ofstream dotStream;
 	dotStream.open(dotFileName, ios::out);
 	//initializing dotstream
-	cout<<"starting creation"<<endl;
+	//cout<<"starting creation"<<endl;
 	dotStream<<"digraph g {\r\n"<<endl;
 	//adding nodes to the graph
 	for(auto resIt = ressources.begin();resIt!=ressources.end();++resIt){
@@ -277,7 +288,7 @@ void genererGraphe(string dotFileName){
 	}
 	dotStream<<"}"<<endl;
 	dotStream.close();
-	cout<<"creation finished"<<endl;
+	//cout<<"creation finished"<<endl;
 }	
 
 void ajouterRessource(string resName, string refName){

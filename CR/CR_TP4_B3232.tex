@@ -1,0 +1,73 @@
+\documentclass[a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[french]{babel}
+\usepackage[top=3cm,bottom=3cm,headheight=60pt,footskip=20pt]{geometry}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{pgfkeys}
+\usepackage{pgfopts}
+\usepackage{afterpage}
+\usepackage{authoraftertitle}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{listings}
+
+\setlength{\columnseprule}{0pt}
+
+\usetikzlibrary{positioning}
+
+%\geometry{showframe=true}
+
+\pagestyle{fancy}
+\lhead{}
+\rhead{\includegraphics[scale=0.3]{logoINSA.png}}
+\lfoot{}
+\cfoot{\vspace{0.7cm}
+\thepage}
+\rfoot{}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\title{TP C++ \no 4 : 
+\bigbreak
+Analyse de logs apache
+}
+\bigbreak
+\author{DURAND Bastien \and FOURNIER Romain}
+
+\afterpage{
+\chead{\textsc{TP C++ \no 4\\
+\nouppercase{\leftmark}}}
+\cfoot{\hspace{0.5cm}DURAND Bastien\hspace{1cm} FOURNIER Romain\\
+\vspace{0.5cm}
+\thepage}}
+%\lhead{\MakeLowercase{\leftmark}}}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\tableofcontents
+\smallbreak
+
+\section*{Introduction}\noindent
+\newpage
+
+\section{Cahier des charges}\noindent
+
+\section{Spécification}\noindent
+
+\section{Conception}\noindent
+
+\section{Données}\noindent
+
+\section{Réalisation}\noindent
+
+\end{document}
