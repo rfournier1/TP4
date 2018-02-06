@@ -1,0 +1,8 @@
+\033[1;33m
+NAME
+\033[0m
+		analog
+\033[1;33m
+SYNOPSIS
+		analog\033[0m FILE [-e]... [-g FILE]... [-t HOUR]...
+\033[1;33m
