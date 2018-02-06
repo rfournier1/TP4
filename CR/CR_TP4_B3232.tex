@@ -61,11 +61,46 @@ Analyse de logs apache
 \section*{Introduction}\noindent
 \newpage
 
-\section{Cahier des charges}\noindent
-
-\section{Spécification}\noindent
+\section{Cahier des charges et spécifications}\noindent
+	
+	Nous avons créé un programme d'exploitation de fichiers log qui respecte les besoins furmulés dans l'énoncé :
+	-par défaut, l'outil affiche dans la console sous forme textuelle la liste des 10 documents les plus populaires par ordre décroissants. L'outils s'appelle en ligne de commande par la commande : ./analog [options] nomfichier.log.
+	-l'outil peut prendre 3 options en ligne de commande :
+	\begin{itemize}
+		\item{} [-g nomfichier.dot] produit un fichier au format Graphviz.
+		\item{} [-e] permet d'exclure les ressources qui ont une extension js, image ou css.
+		\item{} [-t] permet de ne prendre en compte que les hits dans un créneau horaire correspondant à l'interval [heure , heure+1[.
+	\end{itemize}
+	
+	L'expression initiale des besoins étant un peu floue, nous y avons ajouté quelques spécifications :
+	\begin{itemize}
+		\item Par défaut, l'outil affiche dans la console sous forme textuelle la liste des 10 documents les plus populaires par ordre décroissants.
+					\begin{itemize}
+							\item Si il y a moins de 10 documents consultés, l'outil donnera la liste de tous les documents classés par popularité.
+							\item Si la recherche n'a retourné aucun documents, l'outil donnera une réponse prédéfinie.
+							\item Si le fichier .log est vide, inexistant, mal formé ou non spécifié, l'outil affiche l'aide dans le terminal.
+					\end{itemize}
+		\item{} [-g nomfichier.dot] produit un fichier au format Graphviz. 
+					\begin{itemize}
+							\item Pour les ressource n'ayant pas de referer (accès direct à la ressource), un noeud '' - '' représente les accès directe dans le graphe.
+							\item Si le nom du fichier .dot n'est pas spécifié, l'outil affiche l'aide dans le terminal.
+							\item Si un fichier du même nom existe déjà, une confirmation est demandée à l'utilisateur avant d'écraser le fichier.
+					\end{itemize}
+		\item{} [-e] permet d'exclure les ressources qui ont une extension js, image ou css.
+					\begin{itemize}
+							\item Si une ressource n'a pas d'extension, elle sera séléctionnée.
+					\end{itemize}
+		\item{} [-t] permet de ne prendre en compte que les hits dans un créneau horaire correspondant à l'interval [heure, heure+1[.
+					\begin{itemize}
+							\item L'outil devra aussi fonctionner si la plage horaire s'étend sur 2 jours.
+							\item Si l'heure n'est pas spécifiée ou au mauvais format, l'outil affiche l'aide dans le terminal.
+					\end{itemize}
+	\end{itemize}
+							
 
 \section{Conception}\noindent
+
+	Notre application ne comporte qu'une seule interface et une seule réalisation associée. En effet, nous avons décider d'utiliser une structure de donnée de la STL pour gérer nos données. Nous n'avons donc pas eu à implémenter de classes supplémentaires.
 
 \newpage
 \section{Données}\noindent
