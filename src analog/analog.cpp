@@ -137,7 +137,15 @@ void printUsages()
 		cin >> answer;
 	}
 	if(answer == "o"){
-		cout << "usages" << endl;
+		//ouverture d'un flux en lecture sur le fichier
+		ifstream logStream("../man", ios::in);
+		if(logStream)
+		{
+			String line;
+			while(getline(logStream, line))
+			{
+				cout << line << endl;
+			}
 	}
 	//cout << "\033[0m";
 	exit(1);
