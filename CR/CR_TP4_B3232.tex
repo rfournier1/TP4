@@ -100,7 +100,17 @@ Analyse de logs apache
 
 \section{Conception}\noindent
 
-	Notre application ne comporte qu'une seule interface et une seule réalisation associée. En effet, nous avons décider d'utiliser une structure de donnée de la STL pour gérer nos données. Nous n'avons donc pas eu à implémenter de classes supplémentaires.
+	Notre application ne comporte qu'une seule interface et une seule réalisation associée. En effet, nous avons décider d'utiliser une structure de donnée de la STL pour gérer nos données. Nous n'avons donc pas eu à implémenter de classes supplémentaires. Nous avons séparé le fonctionnement de l'outils en différentes fonctions pour nous répartir le travail de manière efficace. Ainsi, nous avons établi l'architecture suivante :
+	\begin{itemize}
+		\item une fonction genererCatalogue qui crée remplie la structure de données à partir du fichier log
+		\item une fonction genererGraphe qui crée le fichier .dot à partir de la structure de données. 
+		\end{itemize}
+		
+	Remarque : notre structure de données étant déjà définie, nous avons commencé par ces deux fonctions que nous avons pu développer en même temps (en testant la fonctions genererGraph avec un jeu de donné défini dans notre programme)
+	
+	\begin{itemize}
+	\item une fonction ajouterRessource (appelée par la fonction genererCatalogue) 
+	\end{itemize}
 
 \newpage
 \section{Données}\noindent
