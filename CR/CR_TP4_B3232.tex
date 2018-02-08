@@ -8,6 +8,7 @@
 \usepackage[top=3cm,bottom=3cm,headheight=60pt,footskip=20pt]{geometry}
 \usepackage{hyperref}
 \usepackage{fancyhdr}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{tikz}
 \usepackage{pgfkeys}
 \usepackage{pgfopts}
@@ -16,6 +17,9 @@
 \usepackage{enumitem}
 \usepackage{multicol}
 \usepackage{listings}
+\usepackage[toc,page]{appendix}
+\usepackage{array}
+
 
 \setlength{\columnseprule}{0pt}
 
@@ -56,16 +60,62 @@ Analyse de logs apache
 \thispagestyle{fancy}
 
 \tableofcontents
+\listoffigures
 \smallbreak
 
 \section*{Introduction}\noindent
 \newpage
 
-\section{Cahier des charges}\noindent
-
-\section{Spécification}\noindent
+\section{Cahier des charges et spécifications}\noindent
+	
+	Nous avons créé un programme d'exploitation de fichiers log qui respecte les besoins furmulés dans l'énoncé :
+	-par défaut, l'outil affiche dans la console sous forme textuelle la liste des 10 documents les plus populaires par ordre décroissants. L'outils s'appelle en ligne de commande par la commande : ./analog [options] nomfichier.log.
+	-l'outil peut prendre 3 options en ligne de commande :
+	\begin{itemize}
+		\item{} [-g nomfichier.dot] produit un fichier au format Graphviz.
+		\item{} [-e] permet d'exclure les ressources qui ont une extension js, image ou css.
+		\item{} [-t] permet de ne prendre en compte que les hits dans un créneau horaire correspondant à l'interval [heure , heure+1[.
+	\end{itemize}
+	
+	L'expression initiale des besoins étant un peu floue, nous y avons ajouté quelques spécifications :
+	\begin{itemize}
+		\item Par défaut, l'outil affiche dans la console sous forme textuelle la liste des 10 documents les plus populaires par ordre décroissants.
+					\begin{itemize}
+							\item Si il y a moins de 10 documents consultés, l'outil donnera la liste de tous les documents classés par popularité.
+							\item Si la recherche n'a retourné aucun documents, l'outil donnera une réponse prédéfinie.
+							\item Si le fichier .log est vide, inexistant, mal formé ou non spécifié, l'outil affiche l'aide dans le terminal.
+					\end{itemize}
+		\item{} [-g nomfichier.dot] produit un fichier au format Graphviz. 
+					\begin{itemize}
+							\item Pour les ressource n'ayant pas de referer (accès direct à la ressource), un noeud '' - '' représente les accès directe dans le graphe.
+							\item Si le nom du fichier .dot n'est pas spécifié, l'outil affiche l'aide dans le terminal.
+							\item Si un fichier du même nom existe déjà, une confirmation est demandée à l'utilisateur avant d'écraser le fichier.
+					\end{itemize}
+		\item{} [-e] permet d'exclure les ressources qui ont une extension js, image ou css.
+					\begin{itemize}
+							\item Si une ressource n'a pas d'extension, elle sera séléctionnée.
+					\end{itemize}
+		\item{} [-t] permet de ne prendre en compte que les hits dans un créneau horaire correspondant à l'interval [heure, heure+1[.
+					\begin{itemize}
+							\item L'outil devra aussi fonctionner si la plage horaire s'étend sur 2 jours.
+							\item Si l'heure n'est pas spécifiée ou au mauvais format, l'outil affiche l'aide dans le terminal.
+					\end{itemize}
+	\end{itemize}
+							
 
 \section{Conception}\noindent
+
+	Notre application ne comporte qu'une seule interface et une seule réalisation associée. En effet, nous avons décider d'utiliser une structure de donnée de la STL pour gérer nos données. Nous n'avons donc pas eu à implémenter de classes supplémentaires. Nous avons séparé le fonctionnement de l'outils en différentes fonctions pour nous répartir le travail de manière efficace. Ainsi, nous avons établi l'architecture suivante :
+	\begin{itemize}
+		\item une fonction genererCatalogue qui crée remplie la structure de données à partir du fichier log
+		\item une fonction genererGraphe qui crée le fichier .dot à partir de la structure de données. 
+		\end{itemize}
+		
+	Remarque : notre structure de données étant déjà définie, nous avons commencé par ces deux fonctions que nous avons pu développer en même temps (en testant la fonctions genererGraph avec un jeu de donné défini dans notre programme)
+	
+	\begin{itemize}
+	\item une fonction ajouterRessource (appelée par la fonction genererCatalogue) 
+	\end{itemize}
 
 \newpage
 \section{Données}\noindent
@@ -80,7 +130,9 @@ Les données extraites des logs sont des ressources et des referers. Voici la ma
 \item clé étant associée à une valeur de type int,
 \item cet entier désigant le nombre de fois que la ressource a été demandée via ce referer.
 \end{itemize}
+\vspace*{\fill}
 
+\begin{figure}[!h]
 \begin{tikzpicture}[draw, minimum width=1cm, minimum height=0.5cm]
     	
     	\node[text width=3cm] at (-4,1.5) {keys};
@@ -167,8 +219,51 @@ Les données extraites des logs sont des ressources et des referers. Voici la ma
 	\node[text width=3cm] (resv) at (-3,-10.5) {unordered\_map};
 	
 \end{tikzpicture}
+\caption{Structure de données utilisée pour stocker et organiser les données extraites des logs}
+\end{figure}
 
+\vspace*{\fill}
 \clearpage
 \section{Réalisation}\noindent
+\\
 
+\begin{appendix}
+\section{Manuel}\noindent
+\noindent
+\textbf{\color{BurntOrange}NOM}\\
+\indent \indent analog\\
+\newline
+\textbf{\color{BurntOrange}SYNOPSIS}\\
+\indent \indent \textbf{\color{BurntOrange}analog} {\color{OliveGreen}\underline{FILE}} [\textbf{\color{BurntOrange}-e}]... [\textbf{\color{BurntOrange}-t} {\color{OliveGreen}\underline{HOUR}}]... [\textbf{\color{BurntOrange}-g} {\color{OliveGreen}\underline{FILE}}]...\\
+\newline
+\textbf{\color{BurntOrange}DESCRIPTION}\\
+\indent \indent \textbf{\color{BurntOrange}analog} permet d'analyser le fichier donné en entré comme un enregistrement de logs\\
+\indent \indent apache.\\
+\indent \indent Par défault, sont donnés en sortie les 10 ressources les plus demandées sur le serveur. Seule\\
+\indent \indent les requêtes GET de code retour 200 sont analysées.\\
+\newline
+\textbf{\color{BurntOrange}OPTIONS}\\
+\indent \indent \textbf{\color{BurntOrange}-e} \\
+\indent \indent \indent \indent Ignore les ressources de type image : .png, .jpg, .bmp, .gif, .css, .js, .ico.\\
+\newline
+\indent \indent \textbf{\color{BurntOrange}-t} {\color{OliveGreen}\underline{HOUR}}\\
+\indent \indent \indent \indent Ignore les logs ne correspondant pas à l'intervalle [{\color{OliveGreen}\underline{HOUR}}; {\color{OliveGreen}\underline{HOUR}} + 1].\\
+\newline
+\indent \indent \textbf{\color{BurntOrange}-e} {\color{OliveGreen}\underline{FILE}}\\
+\indent \indent \indent \indent Produit un fichier {\color{OliveGreen}\underline{FILE}} qui est un graphe modélisant l'ensemble des ressources\\
+\indent \indent \indent \indent demandées via leur referer.\\
+\newline
+\clearpage
+
+\section{Tests}\noindent
+\begin{tabular}{|l|c|m{10cm}|}
+\hline
+\bf Tests & \bf Options & \bf Justifications\\
+\hline
+1		 & aucune 	    & Ce test appel le programme sans options ni arguments. Il permet de valider l'affichage ou non du manuel d'utilisation.\\
+\hline
+
+
+\end{tabular}
+\end{appendix}
 \end{document}
