@@ -1,0 +1,20 @@
+-main- Invalid argument: stoi
+
+Souhaitez-vous consulter le manuel d'utilisation ? (o/n)
+NOM
+                analog
+SYNOPSIS
+                analog FILE [-e]... [-t HOUR]... [-g FILE]...
+DESCRIPTION
+                analog permet d'analyser le fichier donné en entré comme un enregistrement de logs apache.
+                Par défault, sont donnés en sortie les 10 ressources les plus demandées sur le serveur.
+                Seul les requêtes GET de code retour 200 sont analysées.
+OPTIONS
+                -e 
+                                Ignore les ressources de type image : .png, .jpg, .bmp, .gif, .css, .js, .ico.
+
+                -t HOUR
+                                Ignore les logs ne correspondant pas à l'intervalle [HOUR; HOUR + 1].
+
+                -g FILE
+                                Produit un fichier FILE qui est un graphe modélisant l'ensemble des ressources demandées via leur referer.
