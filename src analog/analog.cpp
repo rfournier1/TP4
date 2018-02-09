@@ -137,15 +137,17 @@ void printUsages()
 		cin >> answer;
 	}
 	if(answer == "o"){
+		//cout << "\033[2J" << endl;
 		//ouverture d'un flux en lecture sur le fichier
 		ifstream logStream("../man", ios::in);
 		if(logStream)
 		{
-			String line;
+			string line;
 			while(getline(logStream, line))
 			{
 				cout << line << endl;
 			}
+		}
 	}
 	//cout << "\033[0m";
 	exit(1);
@@ -271,6 +273,7 @@ void genererCatalogue(bool option [], int heure)
 
 void genererGraphe(string dotFileName){
 	ifstream testPresence (dotFileName);
+	//vérifier s'il existe déjà un .dot du même nom
 	if(testPresence){
 		string answer="";
 		while(answer!="o" && answer!="n"){

@@ -8,6 +8,7 @@
 \usepackage[top=3cm,bottom=3cm,headheight=60pt,footskip=20pt]{geometry}
 \usepackage{hyperref}
 \usepackage{fancyhdr}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{tikz}
 \usepackage{pgfkeys}
 \usepackage{pgfopts}
@@ -16,6 +17,9 @@
 \usepackage{enumitem}
 \usepackage{multicol}
 \usepackage{listings}
+\usepackage[toc,page]{appendix}
+\usepackage{array}
+
 
 \setlength{\columnseprule}{0pt}
 
@@ -56,6 +60,7 @@ Analyse de logs apache
 \thispagestyle{fancy}
 
 \tableofcontents
+\listoffigures
 \smallbreak
 
 \section*{Introduction}\noindent
@@ -125,7 +130,9 @@ Les données extraites des logs sont des ressources et des referers. Voici la ma
 \item clé étant associée à une valeur de type int,
 \item cet entier désigant le nombre de fois que la ressource a été demandée via ce referer.
 \end{itemize}
+\vspace*{\fill}
 
+\begin{figure}[!h]
 \begin{tikzpicture}[draw, minimum width=1cm, minimum height=0.5cm]
     	
     	\node[text width=3cm] at (-4,1.5) {keys};
@@ -212,8 +219,51 @@ Les données extraites des logs sont des ressources et des referers. Voici la ma
 	\node[text width=3cm] (resv) at (-3,-10.5) {unordered\_map};
 	
 \end{tikzpicture}
+\caption{Structure de données utilisée pour stocker et organiser les données extraites des logs}
+\end{figure}
 
+\vspace*{\fill}
 \clearpage
 \section{Réalisation}\noindent
+\\
 
+\begin{appendix}
+\section{Manuel}\noindent
+\noindent
+\textbf{\color{BurntOrange}NOM}\\
+\indent \indent analog\\
+\newline
+\textbf{\color{BurntOrange}SYNOPSIS}\\
+\indent \indent \textbf{\color{BurntOrange}analog} {\color{OliveGreen}\underline{FILE}} [\textbf{\color{BurntOrange}-e}]... [\textbf{\color{BurntOrange}-t} {\color{OliveGreen}\underline{HOUR}}]... [\textbf{\color{BurntOrange}-g} {\color{OliveGreen}\underline{FILE}}]...\\
+\newline
+\textbf{\color{BurntOrange}DESCRIPTION}\\
+\indent \indent \textbf{\color{BurntOrange}analog} permet d'analyser le fichier donné en entré comme un enregistrement de logs\\
+\indent \indent apache.\\
+\indent \indent Par défault, sont donnés en sortie les 10 ressources les plus demandées sur le serveur. Seule\\
+\indent \indent les requêtes GET de code retour 200 sont analysées.\\
+\newline
+\textbf{\color{BurntOrange}OPTIONS}\\
+\indent \indent \textbf{\color{BurntOrange}-e} \\
+\indent \indent \indent \indent Ignore les ressources de type image : .png, .jpg, .bmp, .gif, .css, .js, .ico.\\
+\newline
+\indent \indent \textbf{\color{BurntOrange}-t} {\color{OliveGreen}\underline{HOUR}}\\
+\indent \indent \indent \indent Ignore les logs ne correspondant pas à l'intervalle [{\color{OliveGreen}\underline{HOUR}}; {\color{OliveGreen}\underline{HOUR}} + 1].\\
+\newline
+\indent \indent \textbf{\color{BurntOrange}-e} {\color{OliveGreen}\underline{FILE}}\\
+\indent \indent \indent \indent Produit un fichier {\color{OliveGreen}\underline{FILE}} qui est un graphe modélisant l'ensemble des ressources\\
+\indent \indent \indent \indent demandées via leur referer.\\
+\newline
+\clearpage
+
+\section{Tests}\noindent
+\begin{tabular}{|l|c|m{10cm}|}
+\hline
+\bf Tests & \bf Options & \bf Justifications\\
+\hline
+1		 & aucune 	    & Ce test appel le programme sans options ni arguments. Il permet de valider l'affichage ou non du manuel d'utilisation.\\
+\hline
+
+
+\end{tabular}
+\end{appendix}
 \end{document}
