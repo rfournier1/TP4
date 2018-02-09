@@ -60,24 +60,28 @@ Analyse de logs apache
 \thispagestyle{fancy}
 
 \tableofcontents
-\listoffigures
 \smallbreak
 
 \section*{Introduction}\noindent
+
+	L'objectif de ce TP est de développer un outil d'analyse d'un fichier log apache, en utilisant autant que possible les outils de la STL. Il s'agit de simplifier le développement en évitant de recréer des outils déjà existants.
+	Pour ce faire, nous avons d'abord dû nous familiariser avec la syntaxe de ce type de fichier, puis sélectionner la structure de donnée de la STL la plus adaptée à nos besoins, puis enfin implémenter l'outil.
+	Nous avons aussi dû nous effectuer quelques recherches sur le language GraphViz et les outils associés nécessaires à la création d'un graph représentant le fichier log.
+	
 \newpage
 
 \section{Cahier des charges et spécifications}\noindent
 	
 	Nous avons créé un programme d'exploitation de fichiers log qui respecte les besoins furmulés dans l'énoncé :
 	-par défaut, l'outil affiche dans la console sous forme textuelle la liste des 10 documents les plus populaires par ordre décroissants. L'outils s'appelle en ligne de commande par la commande : ./analog [options] nomfichier.log.
-	-l'outil peut prendre 3 options en ligne de commande :
+	-l'outil peut prendre 3 options en ligne de commande :\\
 	\begin{itemize}
 		\item{} [-g nomfichier.dot] produit un fichier au format Graphviz.
 		\item{} [-e] permet d'exclure les ressources qui ont une extension js, image ou css.
 		\item{} [-t] permet de ne prendre en compte que les hits dans un créneau horaire correspondant à l'interval [heure , heure+1[.
 	\end{itemize}
-	
-	L'expression initiale des besoins étant un peu floue, nous y avons ajouté quelques spécifications :
+	\bigbreak
+	L'expression initiale des besoins étant un peu floue, nous y avons ajouté quelques spécifications :\\
 	\begin{itemize}
 		\item Par défaut, l'outil affiche dans la console sous forme textuelle la liste des 10 documents les plus populaires par ordre décroissants.
 					\begin{itemize}
@@ -102,19 +106,20 @@ Analyse de logs apache
 					\end{itemize}
 	\end{itemize}
 							
+\newpage
 
 \section{Conception}\noindent
 
-	Notre application ne comporte qu'une seule interface et une seule réalisation associée. En effet, nous avons décider d'utiliser une structure de donnée de la STL pour gérer nos données. Nous n'avons donc pas eu à implémenter de classes supplémentaires. Nous avons séparé le fonctionnement de l'outils en différentes fonctions pour nous répartir le travail de manière efficace. Ainsi, nous avons établi l'architecture suivante :
+	Notre application ne comporte qu'une seule interface et une seule réalisation associée. En effet, nous avons décider d'utiliser une structure de donnée de la STL pour gérer nos données. Nous n'avons donc pas eu à implémenter de classes supplémentaires. Nous avons séparé le fonctionnement de l'outils en différentes fonctions pour nous répartir le travail de manière efficace. Ainsi, nous avons établi l'architecture suivante :\\
 	\begin{itemize}
 		\item une fonction genererCatalogue qui crée remplie la structure de données à partir du fichier log
 		\item une fonction genererGraphe qui crée le fichier .dot à partir de la structure de données. 
 		\end{itemize}
-		
-	Remarque : notre structure de données étant déjà définie, nous avons commencé par ces deux fonctions que nous avons pu développer en même temps (en testant la fonctions genererGraph avec un jeu de donné défini dans notre programme)
-	
+		\bigbreak
+		Remarque : notre structure de données étant déjà définie, nous avons commencé par ces deux fonctions que nous avons pu développer en même temps (en testant la fonctions genererGraph avec un jeu de donné défini dans notre programme)
+	\\
 	\begin{itemize}
-	\item une fonction ajouterRessource (appelée par la fonction genererCatalogue) 
+	\item une fonction ajouterRessource (appelée par la fonction genererCatalogue). En effet, la fonction genererCatalogue telle que présentée plus haut étant la partie la plus compliquée, nous l'avons séparée en 2 méthodes : genererCatalogue qui recherche les informations dans le fichier log et ajouterRessource qui ajoute l'information dans la structure de donnée.
 	\end{itemize}
 
 \newpage
@@ -224,8 +229,6 @@ Les données extraites des logs sont des ressources et des referers. Voici la ma
 
 \vspace*{\fill}
 \clearpage
-\section{Réalisation}\noindent
-\\
 
 \begin{appendix}
 \section{Manuel}\noindent
