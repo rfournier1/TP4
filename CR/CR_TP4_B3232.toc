@@ -1,7 +1,6 @@
 \select@language {french}
 \contentsline {section}{\numberline {1}Cahier des charges et sp\IeC {\'e}cifications}{2}{section.1}
-\contentsline {section}{\numberline {2}Conception}{2}{section.2}
-\contentsline {section}{\numberline {3}Donn\IeC {\'e}es}{3}{section.3}
-\contentsline {section}{\numberline {4}R\IeC {\'e}alisation}{4}{section.4}
-\contentsline {section}{\numberline {A}Manuel d'utilisation}{4}{appendix.A}
-\contentsline {section}{\numberline {B}Tests de validation}{5}{appendix.B}
+\contentsline {section}{\numberline {2}Conception}{3}{section.2}
+\contentsline {section}{\numberline {3}Organisation des donn\IeC {\'e}es}{4}{section.3}
+\contentsline {section}{\numberline {A}Manuel d'utilisation}{5}{appendix.A}
+\contentsline {section}{\numberline {B}Tests de validation}{6}{appendix.B}

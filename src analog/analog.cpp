@@ -273,6 +273,7 @@ void genererCatalogue(bool option [], int heure)
 
 void genererGraphe(string dotFileName){
 	ifstream testPresence (dotFileName);
+	//vérifier s'il existe déjà un .dot du même nom
 	if(testPresence){
 		string answer="";
 		while(answer!="o" && answer!="n"){
