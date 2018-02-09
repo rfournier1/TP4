@@ -228,7 +228,7 @@ Les données extraites des logs sont des ressources et des referers. Voici la ma
 \\
 
 \begin{appendix}
-\section{Manuel}\noindent
+\section{Manuel d'utilisation}\noindent
 \noindent
 \textbf{\color{BurntOrange}NOM}\\
 \indent \indent analog\\
@@ -255,14 +255,28 @@ Les données extraites des logs sont des ressources et des referers. Voici la ma
 \newline
 \clearpage
 
-\section{Tests}\noindent
+\section{Tests de validation}\noindent
+Afin de réaliser des tests tous en controlant les résultats fourni par le programme, un échantillon de logs a été crée.
+Le fichier "commmentedSamples" contient ces lignes de logs triés par caractéristiques (status, heure, image, même ressource...). De cette manière il est plus facile de controler la sortie du programme qui verra ces logs triés comme des ensembles avec ou sans intersections.
+Le fichier "samples" est équivalent au fichier "commentedsamples" dont on a retiré les commentaires. C'est ce dernier fichier qui est donné en paramètre au programme.
+\bigskip
+
 \begin{tabular}{|l|c|m{10cm}|}
 \hline
 \bf Tests & \bf Options & \bf Justifications\\
 \hline
 1		 & aucune 	    & Ce test appel le programme sans options ni arguments. Il permet de valider l'affichage ou non du manuel d'utilisation.\\
 \hline
-
+2		 & aucune		& Ce test appel le programme sans options avec le fichier "samples" en paramètre. Nous controllons sur la sortie standard l'affichage 							  des 10 ressources les plus demandées sans distinction des extensions ni des heures. \\
+\hline
+3		 & -e 			& Dans ce cas le programme est appelé avec l'option de filtrage des images "-e" avec le fichier "samples" en paramètre. Nous 									  controllons sur la sortie standard l'affichage des 10 ressources les plus demandées et dont l'extension ne correspond pas à une image 						  sans distinction des heures. \\
+\hline
+4		& -t 15			& L'option de sélection d'un créneau horraire "-t" est testée avec ce test qui appel le programme avec l'option et l'heure 15 sur le 							  fichier "samples". Nous controllons sur la sortie standard l'affichage des 10 ressources les plus demandées et dont l'heure du log 							  est comprise sur le créneau [15;16] sans distinction de l'extension. \\
+\hline
+5		& -t 15 -e		& Ce test appel le programme avec deux options combinées "-t" et "-e" sur le fichier "samples". Nous controllons sur la sortie standard 						  l'affichage des 10 ressources les plus demandées avec filtrage des images et dont l'heure du log est comprise sur le créneau [15;16]. 						  \\
+\hline
+6		& -g testdot		& Ici le programme est appelé avec l'option "-g" et la chaine "testdot" sur le fichier "samples". Avec cette option le programme doit 							  générer un fichier de type "dot" et dont le nom est celui de la chaine donné "testdot". Le fichier généré décrit un graphe modélisant 						  l'ensemble des liens entre ressources et referers contenus dans les logs. Nous controllons sur la sortie standard l'affichage des 10 							  ressources les plus demandées et la création du fichier "dot" sans distinction des extensions et des heures.\\
+\hline
 
 \end{tabular}
 \end{appendix}

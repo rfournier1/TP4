@@ -22,3 +22,6 @@ clean :
 mrproper : clean
 	rm -rf $(EXEC)
 	 
+test :
+	cd Tests;
+	bash mktest.sh;
