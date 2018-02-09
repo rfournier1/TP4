@@ -1,12 +1,31 @@
+
+/*************************************************************************
+                           $analog  -  description
+                             -------------------
+    début                : ${date}
+    copyright            : (C) ${year} par ${user}
+*************************************************************************/
+
+//---------- Réalisation de la classe analog (fichier analog.cpp) --
+
+//---------------------------------------------------------------- INCLUDE
+
+//-------------------------------------------------------- Include système
 #include <iostream>
 #include <map>
 #include <string.h>
+
+//------------------------------------------------------ Include personnel
 #include "analog.h"
+
+//----------------------------------------------------- Variables portée fichier
 
 using namespace std;
 
 string logFileName;
 Catalogue ressources;
+
+//----------------------------------------------------- Fonctions
 
 int main(int argc, char const *argv[])
 {
