@@ -1,0 +1,35 @@
+digraph g {
+
+"http://if.insa-lyon.fr/" -> "/SiteWebIF/Intranet-etudiant.php" [label=1];
+
+"x" -> "/SiteWebIF/Intranet-etudiant.php" [label=1];
+
+"x" -> "/temps/3IF4.ics" [label=1];
+
+"http://intranet-if.insa-lyon.fr/temps/3IF37.html" -> "/temps/precedent.gif" [label=1];
+
+"http://intranet-if.insa-lyon.fr:90/wiki/doku.php" -> "/wiki/lib/tpl/monobook/static/img/button-monobook.png" [label=1];
+
+"http://intranet-if.insa-lyon.fr/temps/style_emploi_du_temps.css" -> "/temps/FondInsa.jpg" [label=1];
+
+"http://intranet-if.insa-lyon.fr/temps/" -> "/temps/style_emploi_du_temps.css" [label=1];
+
+"http://intranet-if.insa-lyon.fr/limesurvey/index.php?lang=fr&sid=14784&token=tjpq7ik3paxwnck" -> "/limesurvey/scripts/jquery/jquery-ui.js" [label=1];
+
+"http://intranet-if.insa-lyon.fr/temps/4IF15.html" -> "/temps/4IF16.html" [label=3];
+
+"http://intranet-if.insa-lyon.fr/notesif/saisie2007/" -> "/notesif/saisie2007/Images/consultation_a.bmp" [label=1];
+
+"x" -> "/temps/SC.ics" [label=1];
+
+"http://intranet-if.insa-lyon.fr/temps/3IF37.html" -> "/temps/3IF38.html" [label=1];
+
+"http://intranet-if.insa-lyon.fr/temps/" -> "/temps/3IF37.html" [label=1];
+
+"http://www.google.fr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&ved=0CDIQFjAB&url=http%3A%2F%2Fintranet-if.insa-lyon.fr%2Ftemps%2F&ei=_wxLUKCwEMaJhQe08oCYCw&usg=AFQjCNEWrHsRdIlhli_31qYl94w-yMCjpw&sig2=eTdZgqmz8aDAi5eiWxEP1g" -> "/temps/" [label=1];
+
+"x" -> "/temps/InsaIF.ico" [label=1];
+
+"http://intranet-if.insa-lyon.fr/temps/" -> "/temps/5IF40.html" [label=1];
+
+}

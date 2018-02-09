@@ -61,48 +61,58 @@ Analyse de logs apache
 
 \tableofcontents
 \smallbreak
+\vspace*{\fill}
 
 \section*{Introduction}\noindent
 
 	L'objectif de ce TP est de développer un outil d'analyse d'un fichier log apache, en utilisant autant que possible les outils de la STL. Il s'agit de simplifier le développement en évitant de recréer des outils déjà existants.
 	Pour ce faire, nous avons d'abord dû nous familiariser avec la syntaxe de ce type de fichier, puis sélectionner la structure de donnée de la STL la plus adaptée à nos besoins, puis enfin implémenter l'outil.
-	Nous avons aussi dû nous effectuer quelques recherches sur le language GraphViz et les outils associés nécessaires à la création d'un graph représentant le fichier log.
-	
-\newpage
+	Nous avons aussi dû effectuer quelques recherches sur le language GraphViz et les outils associés nécessaires à la création d'un graphe représentant le fichier log.
+\vspace*{\fill}
+
+\clearpage
 
 \section{Cahier des charges et spécifications}\noindent
 	
-	Nous avons créé un programme d'exploitation de fichiers log qui respecte les besoins furmulés dans l'énoncé :
-	-par défaut, l'outil affiche dans la console sous forme textuelle la liste des 10 documents les plus populaires par ordre décroissants. L'outils s'appelle en ligne de commande par la commande : ./analog [options] nomfichier.log.
-	-l'outil peut prendre 3 options en ligne de commande :\\
+	Nous avons créé un programme d'exploitation de fichiers log qui respecte les besoins furmulés dans l'énoncé :\\
+	\begin{itemize}[label=\textbullet]
+	\item -par défaut, l'outil affiche dans la console sous forme textuelle la liste des 10 documents les plus populaires par ordre décroissant. L'outil est 			appelé en ligne de commande par la commande : ./analog [options] nomfichier.log,
+	\item -l'outil peut prendre 3 options en ligne de commande :\\
 	\begin{itemize}
-		\item{} [-g nomfichier.dot] produit un fichier au format Graphviz.
-		\item{} [-e] permet d'exclure les ressources qui ont une extension js, image ou css.
-		\item{} [-t] permet de ne prendre en compte que les hits dans un créneau horaire correspondant à l'interval [heure , heure+1[.
+		\item{} [-g nomfichier.dot] produit un fichier au format Graphviz,
+		\item{} [-e] permet d'exclure les ressources qui ont une extension js, image ou css,
+		\item{} [-t] permet de ne prendre en compte que les hits dans un créneau horaire correspondant à l'intervalle [heure , heure+1].
 	\end{itemize}
+	\end{itemize}		
+	
+	
 	\bigbreak
 	L'expression initiale des besoins étant un peu floue, nous y avons ajouté quelques spécifications :\\
-	\begin{itemize}
-		\item Par défaut, l'outil affiche dans la console sous forme textuelle la liste des 10 documents les plus populaires par ordre décroissants.
+	\begin{itemize}[label=\textbullet]
+		\item \textbf{Par défaut}, l'outil affiche dans la console sous forme textuelle la liste des 10 documents les plus populaires par ordre décroissants :
 					\begin{itemize}
-							\item Si il y a moins de 10 documents consultés, l'outil donnera la liste de tous les documents classés par popularité.
-							\item Si la recherche n'a retourné aucun documents, l'outil donnera une réponse prédéfinie.
-							\item Si le fichier .log est vide, inexistant, mal formé ou non spécifié, l'outil affiche l'aide dans le terminal.
+							\item Si il y a moins de 10 documents consultés, l'outil donnera la liste de tous les documents classés par popularité,
+							\item Si la recherche n'a retourné aucun documents, l'outil donnera une réponse prédéfinie,
+							\item Si le fichier .log est vide, inexistant, mal formé ou non spécifié, l'outil affiche l'aide dans le terminal,
+							\item \textbf{Amélioration possible :} ajouter une option permmettant le contrôle du nombre de ressources affichées.
 					\end{itemize}
-		\item{} [-g nomfichier.dot] produit un fichier au format Graphviz. 
+		\item{} \textbf{[-g nomfichier.dot]} produit un fichier au format Graphviz :
 					\begin{itemize}
-							\item Pour les ressource n'ayant pas de referer (accès direct à la ressource), un noeud '' - '' représente les accès directe dans le graphe.
-							\item Si le nom du fichier .dot n'est pas spécifié, l'outil affiche l'aide dans le terminal.
-							\item Si un fichier du même nom existe déjà, une confirmation est demandée à l'utilisateur avant d'écraser le fichier.
+							\item Pour les ressources n'ayant pas de referer (accès direct à la ressource), un noeud '' - '' représente les accès direct dans le graphe,
+							\item Si le nom du fichier .dot n'est pas spécifié, l'outil affiche l'aide dans le terminal,
+							\item Si un fichier du même nom existe déjà, une confirmation est demandée à l'utilisateur avant d'écraser le fichier,
+							\item \textbf{Amélioration possible :} nettoyer les referers contenant des passages de paramètres pour un affichage plus clair du graphe.
 					\end{itemize}
-		\item{} [-e] permet d'exclure les ressources qui ont une extension js, image ou css.
+		\item{} \textbf{[-e]} permet d'exclure les ressources qui ont une extension .png, .jpg, .bmp, .gif, .css, .js, .ico :
 					\begin{itemize}
-							\item Si une ressource n'a pas d'extension, elle sera séléctionnée.
+							\item Si une ressource n'a pas d'extension, elle sera séléctionnée,
+							\item \textbf{Amélioration possible :} -e PATTERN permettant de choisir un ensemble d'extensions.
 					\end{itemize}
-		\item{} [-t] permet de ne prendre en compte que les hits dans un créneau horaire correspondant à l'interval [heure, heure+1[.
+		\item{} \textbf{[-t heure]} permet de ne prendre en compte que les hits dans un créneau horaire correspondant à l'intervalle [heure, heure+1] : 
 					\begin{itemize}
-							\item L'outil devra aussi fonctionner si la plage horaire s'étend sur 2 jours.
-							\item Si l'heure n'est pas spécifiée ou au mauvais format, l'outil affiche l'aide dans le terminal.
+							\item L'outil devra aussi fonctionner si la plage horaire s'étend sur 2 jours,
+							\item Si l'heure n'est pas spécifiée ou au mauvais format, l'outil affiche l'aide dans le terminal,
+							\item \textbf{Amélioration possible :} plus de précision sur le choix du créneau horaire, voir même sur la date.
 					\end{itemize}
 	\end{itemize}
 							
@@ -111,24 +121,23 @@ Analyse de logs apache
 \section{Conception}\noindent
 
 	Notre application ne comporte qu'une seule interface et une seule réalisation associée. En effet, nous avons décider d'utiliser une structure de donnée de la STL pour gérer nos données. Nous n'avons donc pas eu à implémenter de classes supplémentaires. Nous avons séparé le fonctionnement de l'outils en différentes fonctions pour nous répartir le travail de manière efficace. Ainsi, nous avons établi l'architecture suivante :\\
-	\begin{itemize}
-		\item une fonction genererCatalogue qui crée remplie la structure de données à partir du fichier log
-		\item une fonction genererGraphe qui crée le fichier .dot à partir de la structure de données. 
-		\end{itemize}
-		\bigbreak
-		Remarque : notre structure de données étant déjà définie, nous avons commencé par ces deux fonctions que nous avons pu développer en même temps (en testant la fonctions genererGraph avec un jeu de donné défini dans notre programme)
-	\\
-	\begin{itemize}
-	\item une fonction ajouterRessource (appelée par la fonction genererCatalogue). En effet, la fonction genererCatalogue telle que présentée plus haut étant la partie la plus compliquée, nous l'avons séparée en 2 méthodes : genererCatalogue qui recherche les informations dans le fichier log et ajouterRessource qui ajoute l'information dans la structure de donnée.
+	\begin{itemize}[label=\textbullet]
+		\item une fonction genererCatalogue qui crée et remplie la structure de données à partir du fichier log,
+		\item une fonction genererGraphe qui crée le fichier .dot à partir de la structure de données,
+		\item une fonction ajouterRessource (appelée par la fonction genererCatalogue). En effet, la fonction genererCatalogue telle que présentée plus haut étant la partie la plus compliquée, nous l'avons séparée en 2 méthodes : genererCatalogue qui recherche les informations dans le fichier log et ajouterRessource qui ajoute l'information dans la structure de donnée.
 	\end{itemize}
 
+\bigbreak
+\noindent
+		\textbf{Remarque :} notre structure de données étant déjà définie, nous avons commencé par ces deux fonctions que nous avons pu développer en même temps (en testant la fonctions genererGraphe avec un jeu de données défini dans notre programme)
+	\\
 \newpage
 \section{Organisation des données}\noindent
 
 Les données tirées de l'exploitation des logs seront stockées dans plusieurs conteneurs de la stl de type "unordered\_map". A la différence d'une "map" ce conteneur ne stocke pas ses clées triées. Ainsi ce n'est pas sous forme d'arbre binaire rouge et noir qu'une "unordered\_map" est implémentée mais sous la forme d'une table de hachage. Le cout en insertion ou recherche est en O(1) en moyenne et O(n) dans le pire des cas. 
 \\
 Les données extraites des logs sont des ressources et des referers. Voici la manières dont nous les stockons :
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item chaque ressource est une clé dans une "unordered\_map" "générale",
 \item clé étant associée à une valeur de type "unordered\_map",
 \item les referers pointant sur une ressource sont clés de l'"unordered\_map" liée à cette ressource,
@@ -261,26 +270,34 @@ Les données extraites des logs sont des ressources et des referers. Voici la ma
 \section{Tests de validation}\noindent
 Afin de réaliser des tests tous en controlant les résultats fourni par le programme, un échantillon de logs a été crée.
 Le fichier "commmentedSamples" contient ces lignes de logs triés par caractéristiques (status, heure, image, même ressource...). De cette manière il est plus facile de controler la sortie du programme qui verra ces logs triés comme des ensembles avec ou sans intersections.
-Le fichier "samples" est équivalent au fichier "commentedsamples" dont on a retiré les commentaires. C'est ce dernier fichier qui est donné en paramètre au programme.
+Le fichier "samples" est équivalent au fichier "commentedsamples" dont on a retiré les commentaires. C'est ce fichier non commenté qui est donné en paramètre au programme.
 \bigskip
+\vspace*{\fill}
 
 \begin{tabular}{|l|c|m{10cm}|}
 \hline
 \bf Tests & \bf Options & \bf Justifications\\
 \hline
-1		 & aucune 	    & Ce test appel le programme sans options ni arguments. Il permet de valider l'affichage ou non du manuel d'utilisation.\\
+1		 & aucune 	    & Ce test appelle le programme sans options ni arguments. Il permet de valider l'affichage ou non du manuel d'utilisation.\\
 \hline
-2		 & aucune		& Ce test appel le programme sans options avec le fichier "samples" en paramètre. Nous controllons sur la sortie standard l'affichage 							  des 10 ressources les plus demandées sans distinction des extensions ni des heures. \\
+2		 & aucune		& Ce test appelle le programme sans options avec le fichier "samples" en paramètre. Nous controllons sur la sortie standard l'affichage 						  des 10 ressources les plus demandées sans distinction des extensions ni des heures. \\
 \hline
-3		 & -e 			& Dans ce cas le programme est appelé avec l'option de filtrage des images "-e" avec le fichier "samples" en paramètre. Nous 									  controllons sur la sortie standard l'affichage des 10 ressources les plus demandées et dont l'extension ne correspond pas à une image 						  sans distinction des heures. \\
+3		 & -e 			& Dans ce cas le programme est appelé avec l'option de filtrage des images "-e" avec le fichier "samples" en paramètre. Nous 									  controllons sur la sortie standard l'affichage des 10 ressources les plus demandées et dont l'extension ne correspond pas à une 								  image, sans distinction des heures. \\
 \hline
-4		& -t 15			& L'option de sélection d'un créneau horraire "-t" est testée avec ce test qui appel le programme avec l'option et l'heure 15 sur le 							  fichier "samples". Nous controllons sur la sortie standard l'affichage des 10 ressources les plus demandées et dont l'heure du log 							  est comprise sur le créneau [15;16] sans distinction de l'extension. \\
+4		& -t 15			& L'option de sélection d'un créneau horraire "-t" est testée avec ce test qui appelle le programme avec cette option et l'heure 15 sur 						  le fichier "samples". Nous controllons sur la sortie standard l'affichage des 10 ressources les plus demandées et dont l'heure du log 						  est comprise sur le créneau [15;16] sans distinction de l'extension. \\
 \hline
-5		& -t 15 -e		& Ce test appel le programme avec deux options combinées "-t" et "-e" sur le fichier "samples". Nous controllons sur la sortie standard 						  l'affichage des 10 ressources les plus demandées avec filtrage des images et dont l'heure du log est comprise sur le créneau [15;16]. 						  \\
+5		& -t 15 -e		& Ce test appelle le programme avec deux options combinées "-t" et "-e" sur le fichier "samples". Nous controllons sur la sortie 								standard l'affichage des 10 ressources les plus demandées avec filtrage des images et dont l'heure du log est comprise sur le créneau 							[15;16].\\
 \hline
-6		& -g testdot		& Ici le programme est appelé avec l'option "-g" et la chaine "testdot" sur le fichier "samples". Avec cette option le programme doit 							  générer un fichier de type "dot" et dont le nom est celui de la chaine donné "testdot". Le fichier généré décrit un graphe modélisant 						  l'ensemble des liens entre ressources et referers contenus dans les logs. Nous controllons sur la sortie standard l'affichage des 10 							  ressources les plus demandées et la création du fichier "dot" sans distinction des extensions et des heures.\\
+6		& -g testdot		& Ici le programme est appelé avec l'option "-g" et la chaine "testdot" sur le fichier "samples". Avec cette option le programme doit 							  générer un fichier de type "dot" et dont le nom est celui de la chaine donnée "testdot". Le fichier généré décrit un graphe 									  modélisant l'ensemble des liens entre ressources et referers contenus dans les logs. Nous controllons sur la sortie standard 								  l'affichage des 10 ressources les plus demandées et la création du fichier "dot" sans distinction des extensions et des heures.\\
 \hline
 
 \end{tabular}
+\bigskip
+\vspace*{\fill}
+
+\noindent
+\textbf{Remarque :} lors de l'éxecution du script test.sh la redirection de l'entrée standard sur le fichier std.in ne fonctionne pas tandis que l'appel au programme de la manière suivante analog < std.in prend bien en compte la redirection de l'entrée standard. Pour cette raison le test d'affichage du manuel (affichage nécessitant la saisie au clavier d'une lettre) ne fonctionne pas réellement.
+\vspace*{\fill}
+
 \end{appendix}
 \end{document}
