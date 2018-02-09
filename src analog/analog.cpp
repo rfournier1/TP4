@@ -39,11 +39,8 @@ int main(int argc, char const *argv[])
 	
 	if(argc > 1 && argc < 8)
 	{
-		//cout << "argc" << argc << endl;
-
 		for (int i = 1; i < argc; ++i)
 		{
-			//cout << "argv" << i << " : " << argv[i] << endl;
 			//option : -e
 			if(strcmp(argv[i], "-e") == 0)
 			{
@@ -89,14 +86,11 @@ int main(int argc, char const *argv[])
 			}else
 			{
 				logFileName = argv[i];
-				//cout << "fileName : " << logFileName << endl;
 			}
 		}
 	}else
 	{
-		//cerr << "\033[1;91m";
 		cerr << "-main- Trop ou pas d'arguments" << endl;
-		//cerr << "\033[0m";
 		printUsages();
 	}
 
@@ -108,16 +102,10 @@ int main(int argc, char const *argv[])
 
 	genererCatalogue(option, heure);
 
-	/*ReferersMap resA={{"B",2},{"C",1}};
-	ReferersMap resB={{"A",12},{"C",3},{"B",4}};
-	Catalogue ressources={{"A",resA},{"B",resB}};
-	ajouterRessource("A", "B", ressources);
-	ajouterRessource("B", "B", ressources);*/
 	//option : -g
 	if(option[2])
 	{
 		genererGraphe(dotOutputFile);
-		//cout<<ressources["A"]["B"];
 	}
 	
 	//tri des ressources par ordre de consultation
@@ -148,7 +136,6 @@ int main(int argc, char const *argv[])
 
 void printUsages()
 {
-	//cout << "\033[1;33m";
 	string answer;
 	while(answer!="o" && answer!="n"){
 		cout << endl;
@@ -156,7 +143,6 @@ void printUsages()
 		cin >> answer;
 	}
 	if(answer == "o"){
-		//cout << "\033[2J" << endl;
 		//ouverture d'un flux en lecture sur le fichier
 		ifstream logStream("../man", ios::in);
 		if(logStream)
@@ -168,7 +154,6 @@ void printUsages()
 			}
 		}
 	}
-	//cout << "\033[0m";
 	exit(1);
 }
 
@@ -228,17 +213,11 @@ void genererCatalogue(bool option [], int heure)
 								
 							{
 								//insertion dans la map------------------------------------------------------------------------------------
-								/*cout << line << endl;
-								cout << ressource << endl;
-								cout << referer << endl;*/
 								ajouterRessource(ressource,referer);
 							}
 						}else
 						{
 							//insertion dans la map------------------------------------------------------------------------------------
-							/*cout << line << endl;
-							cout << ressource << endl;
-							cout << referer << endl;*/
 							ajouterRessource(ressource,referer);
 						}
 					}
@@ -267,15 +246,11 @@ void genererCatalogue(bool option [], int heure)
 							&& ressource.find(".js") == string::npos && ressource.find(".ico") == string::npos)
 						{
 							//insertion dans la map------------------------------------------------------------------------------------
-							//cout << ressource << endl;
-							//cout << referer << endl;
 							ajouterRessource(ressource,referer);
 						}
 					}else
 					{
 						//insertion dans la map------------------------------------------------------------------------------------
-						//cout << ressource << endl;
-						//cout << referer << endl;
 						ajouterRessource(ressource,referer);
 					}
 				}
@@ -308,7 +283,6 @@ void genererGraphe(string dotFileName){
 	ofstream dotStream;
 	dotStream.open(dotFileName, ios::out);
 	//initializing dotstream
-	//cout<<"starting creation"<<endl;
 	dotStream<<"digraph g {\r\n"<<endl;
 	//adding nodes to the graph
 	for(auto resIt = ressources.begin();resIt!=ressources.end();++resIt){
@@ -318,7 +292,6 @@ void genererGraphe(string dotFileName){
 	}
 	dotStream<<"}"<<endl;
 	dotStream.close();
-	//cout<<"creation finished"<<endl;
 }	
 
 void ajouterRessource(string resName, string refName){
@@ -338,7 +311,6 @@ void ajouterRessource(string resName, string refName){
 			res->second.insert({refName,1});
 		}
 	}else{
-		//ReferersMap test = {{refName, 1}};
 		ressources.insert({resName, {{refName, 1}}});
 	}
 }
